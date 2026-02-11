@@ -1,0 +1,18 @@
+{
+  "name": "test-backend",
+  "type": "backend",
+  "instance_id": "i-0c3f7e3ab3e734871",
+  "public_ip": "100.53.116.163",
+  "port": 3000,
+  "url": "http://100.53.116.163:3000",
+  "security_group_id": "sg-054bb41b8c3d526af",
+  "instance_type": "t2.micro",
+  "region": "us-east-1",
+  "app_type": "nodejs",
+  "status": "running",
+  "repo_url": "https://github.com/frankhokevinho/simple-express-app",
+  "updated_at": "2026-02-11T08:44:43.454322",
+  "created_at": "2026-02-11T08:44:02.392536",
+  "frontend_url": "http://test-frontend-d4939c6e4edb.s3-website-us-east-1.amazonaws.com",
+  "connected_to": "test-frontend"
+}
