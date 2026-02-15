@@ -1,160 +1,168 @@
-# 🤖 AWS Agent - Deploy Infrastructure with Natural Language
+# 🤖 AWS Deployment Agent
 
-> **"Just tell it what you want. It figures out the rest."**
+> Deploy AWS infrastructure with natural language using AI-powered MCP agents
 
-Deploy full-stack applications to AWS by simply describing what you want in plain English. No YAML. No Terraform. No clicking through 47 AWS console pages.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 
-Built with [Archestra](https://github.com/archestra-ai/archestra) + Model Context Protocol (MCP) for the ultimate AI-powered DevOps experience.
-
-[![Demo Video](https://img.shields.io/badge/▶️-Watch_Demo-red?style=for-the-badge)](https://youtube.com/your-demo)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![Twitter Follow](https://img.shields.io/twitter/follow/yourusername?style=for-the-badge&logo=twitter)](https://twitter.com/yourusername)
+Built with [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) for the Archestra Hackathon 2026.
 
 ---
 
-## ✨ What Makes This Special?
+## ✨ What It Does
 
-**Traditional DevOps:**
-```bash
-# Learn Terraform/CloudFormation syntax
-# Write 200+ lines of config
-# Debug cryptic errors
-# Repeat for every project
+Transform this:
+```
+You: "Deploy my React + Express app to AWS"
 ```
 
-**With AWS Agent:**
+Into this:
 ```
-You: "Deploy my todo app to AWS"
+✓ Backend deployed to EC2 (http://54.123.45.67:3000)
+✓ Frontend deployed to S3 (http://my-app.s3-website.amazonaws.com)
+✓ Services connected
+✓ Auto-scaling configured
+💰 Total cost: $8.50/month
+```
 
-AI: ✓ Backend on EC2
-    ✓ Frontend on S3
-    ✓ Auto-scaling configured
-    ✓ Everything connected
-    
-    Your app is live at: https://...
-    Monthly cost: $8.47
-```
+**No YAML. No Terraform. No clicking through 47 AWS console pages.**
 
 ---
 
-## 🎯 Use Cases
+## 🎯 Features
 
-### For Hackathon Teams
-```
-"Deploy my React + Express app. Make it scalable and cheap."
-→ Live in 3 minutes. Focus on building, not infrastructure.
-```
-
-### For Indie Developers
-```
-"My side project might go viral. Set it up to handle traffic spikes."
-→ Auto-scaling configured. Pay $12/month normally, scales to $500 if viral.
-```
-
-### For Learning
-```
-"I want to learn AWS. Deploy a simple app and explain what you did."
-→ Hands-on learning without getting lost in documentation.
-```
-
-### For Cost Optimization
-```
-"My AWS bill is $200/month. How can I reduce it?"
-→ AI analyzes your setup and suggests optimizations.
-```
+- 🗣️ **Natural Language Interface** - Describe what you want, get infrastructure
+- 🔧 **MCP-Based Architecture** - Protocol-compliant, works with any MCP client
+- ☁️ **Multi-Service Support** - EC2, S3, VPC, Auto-Scaling
+- 💰 **Cost Aware** - Estimates costs before deploying
+- 🐳 **Docker Ready** - One-command setup
+- 🔒 **Secure** - Credentials never leave your machine
+- 📊 **Observable** - Track all deployments
 
 ---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- AWS Account ([Get free tier](https://aws.amazon.com/free/))
-- Python 3.10+
-- Git
 
-### Installation
+- [Docker](https://docs.docker.com/get-docker/) installed
+- AWS Account with credentials
+- [Claude Desktop](https://claude.ai/download) (or Archestra)
+
+### 1. Clone & Configure
 ```bash
-# Clone the repo
 git clone https://github.com/yourusername/aws-agent.git
 cd aws-agent
 
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Configure AWS credentials
+# Copy environment template
 cp .env.example .env
-# Edit .env and add your AWS keys
+
+# Edit .env with your AWS credentials
+nano .env
 ```
 
-### Get AWS Credentials
-
-1. Go to [AWS IAM Console](https://console.aws.amazon.com/iam/)
-2. Create a new user with `AdministratorAccess` (or use custom policy below)
-3. Create Access Key
-4. Copy keys to `.env`:
+### 2. Build Docker Image
 ```bash
-AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
-AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-AWS_DEFAULT_REGION=us-east-1
+# Using Make (easiest)
+make build
+
+# Or using Docker directly
+docker build -t aws-deployment-agent .
 ```
 
-### Test Deployment
+### 3. Test the Setup
 ```bash
-# Update test_deploy.py with your GitHub repos
-# Then run:
-python test_deploy.py
+make test
+```
+
+Should output:
+```
+✅ Config loaded
+Region: us-east-1
+```
+
+### 4. Configure Claude Desktop
+
+**Mac/Linux:**
+```bash
+nano ~/Library/Application\ Support/Claude/claude_desktop_config.json
+```
+
+**Windows:**
+```bash
+notepad %APPDATA%\Claude\claude_desktop_config.json
+```
+
+**Add this configuration:**
+```json
+{
+  "mcpServers": {
+    "aws-deployment-agent": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "--env-file",
+        "/FULL/PATH/TO/YOUR/aws-agent/.env",
+        "aws-deployment-agent"
+      ]
+    }
+  }
+}
+```
+
+⚠️ **IMPORTANT:** Replace `/FULL/PATH/TO/YOUR/aws-agent/` with your actual path!
+
+Get your full path:
+```bash
+cd /path/to/aws-agent
+pwd
+```
+
+### 5. Start Using!
+
+1. **Restart Claude Desktop** completely (Cmd+Q or Alt+F4)
+2. **Look for 🔌 icon** in bottom-right corner
+3. **Start deploying!**
+```
+You: "Deploy my Express backend at github.com/user/backend"
+
+Claude: I'll deploy your Express backend to AWS EC2...
+[Deploys in 2 minutes]
+Your backend is live at http://3.21.45.67:3000
 ```
 
 ---
 
-## 🎬 Demo
+## 📖 Usage Examples
+
+### Deploy Backend Only
+```
+Deploy my Node.js API at github.com/myuser/backend to AWS
+```
 
 ### Deploy Full-Stack App
-```python
-from mcp_server.tools import deploy_backend_to_ec2, deploy_frontend_to_s3
-
-# Deploy backend
-backend = await deploy_backend_to_ec2(
-    repo_url="https://github.com/yourusername/express-api",
-    name="my-backend",
-    instance_type="t2.micro"
-)
-
-# Deploy frontend
-frontend = await deploy_frontend_to_s3(
-    repo_url="https://github.com/yourusername/react-app",
-    name="my-frontend",
-    backend_url=backend['url']
-)
-
-# Done! Your app is live.
+```
+I have a React frontend at github.com/user/frontend and 
+Express backend at github.com/user/backend. 
+Deploy both and connect them.
 ```
 
-### With Archestra (Natural Language)
+### Check Deployment Status
 ```
-You: I have a Node.js API at github.com/me/api and a React 
-     frontend at github.com/me/web. Deploy them to AWS.
+What's the status of my backend deployment?
+```
 
-AI: I'll deploy your full-stack application:
-    
-    1. Backend to EC2 (t2.micro, $8/mo)
-    2. Frontend to S3 ($0.50/mo)
-    3. Connect them securely
-    
-    Estimated cost: $8.50/month
-    Proceed? [Yes/No]
+### Estimate Costs
+```
+How much is my deployment costing per month?
+```
 
-You: Yes
-
-AI: ✓ Backend deployed: http://3.21.45.67:3000
-    ✓ Frontend deployed: http://my-app.s3-website...
-    ✓ Services connected
-    
-    Your app is live! 🎉
+### Cost-Optimized Deployment
+```
+Deploy my side project as cheaply as possible
 ```
 
 ---
@@ -162,29 +170,25 @@ AI: ✓ Backend deployed: http://3.21.45.67:3000
 ## 🏗️ Architecture
 ```
 ┌─────────────────────────────────────┐
-│   Natural Language Query            │
-│   "Deploy my app to AWS"            │
+│   User (Natural Language)           │
 └──────────────┬──────────────────────┘
                │
 ┌──────────────▼──────────────────────┐
-│   AI Agent (Claude/GPT-4)           │
-│   - Understands intent              │
-│   - Plans deployment                │
-│   - Calls appropriate tools         │
+│   Claude Desktop / Archestra        │
+│   (MCP Client)                      │
 └──────────────┬──────────────────────┘
-               │
+               │ MCP Protocol
 ┌──────────────▼──────────────────────┐
-│   MCP Server (This Project)         │
-│   Custom Tools:                     │
-│   - deploy_backend_to_ec2()         │
-│   - deploy_frontend_to_s3()         │
-│   - setup_autoscaling()             │
-│   - optimize_costs()                │
+│   MCP Server (Docker)               │
+│   • deploy_backend_to_ec2()         │
+│   • deploy_frontend_to_s3()         │
+│   • connect_services()              │
+│   • estimate_costs()                │
 └──────────────┬──────────────────────┘
-               │
+               │ boto3 (AWS SDK)
 ┌──────────────▼──────────────────────┐
-│   AWS SDK (boto3)                   │
-│   - EC2, S3, VPC, Auto Scaling      │
+│   AWS Cloud                         │
+│   EC2 • S3 • VPC • Auto-Scaling     │
 └─────────────────────────────────────┘
 ```
 
@@ -192,193 +196,58 @@ AI: ✓ Backend deployed: http://3.21.45.67:3000
 
 ## 🛠️ Available Tools
 
-| Tool | Description | Example |
-|------|-------------|---------|
-| `deploy_backend_to_ec2` | Deploy Node.js/Python backend to EC2 | "Deploy my Express API" |
-| `deploy_frontend_to_s3` | Deploy React/Vue/Angular to S3 | "Host my React app" |
-| `connect_services` | Configure CORS, security groups | "Connect my frontend to backend" |
-| `estimate_costs` | Calculate AWS costs | "How much will this cost?" |
-| `get_deployment_status` | Check deployment health | "Is my app running?" |
-| `setup_autoscaling` | Configure auto-scaling (coming soon) | "Scale from 1 to 10 instances" |
-| `setup_nginx` | Reverse proxy setup (coming soon) | "Route /api and /admin" |
+| Tool | Description | Cost |
+|------|-------------|------|
+| `deploy_backend_to_ec2` | Deploy Node.js/Python backends | ~$8/mo |
+| `deploy_frontend_to_s3` | Deploy React/Vue/Angular apps | ~$0.50/mo |
+| `connect_services` | Link frontend & backend | Free |
+| `estimate_deployment_cost` | Calculate AWS costs | Free |
+| `get_deployment_status` | Check deployment health | Free |
 
 ---
 
-## 💰 Cost Breakdown
+## 💰 Cost Estimates
 
-| Component | Configuration | Cost/Month | When to Use |
-|-----------|---------------|------------|-------------|
-| **EC2 - t2.micro** | 1 vCPU, 1GB RAM | $8.47 | Small apps, side projects |
-| **EC2 - t2.small** | 1 vCPU, 2GB RAM | $16.79 | Medium traffic |
-| **EC2 - t3.medium** | 2 vCPU, 4GB RAM | $30.37 | Production apps |
-| **S3 Static Hosting** | 1GB storage | $0.50 | All frontends |
-| **Data Transfer** | 1GB/month | $0.09 | Typical usage |
+| Resource | Configuration | Monthly Cost |
+|----------|---------------|--------------|
+| **t2.micro** | 1 vCPU, 1GB RAM | $8.47 (FREE TIER) |
+| **t2.small** | 1 vCPU, 2GB RAM | $16.79 |
+| **t3.medium** | 2 vCPU, 4GB RAM | $30.37 |
+| **S3 Static** | 1GB storage | $0.50 |
 
-**Typical Full-Stack App:** $8-15/month
-
-**Pro Tips:**
-- Use t2.micro for free tier (first 12 months)
-- Auto-shutdown at night → Save 50%
-- Spot instances → Save 70%
+**Typical full-stack app:** $8-15/month
 
 ---
 
-## 🎓 How It Works
+## 🔑 AWS Credentials Setup
 
-### 1. **AI Understands Context**
-```
-User: "My app gets busy during lunch hour"
+### Option 1: Environment Variables (Recommended)
 
-AI thinks:
-- "Lunch hour" = 12pm-2pm traffic spike
-- Needs auto-scaling
-- Should scale based on time + CPU
-- Cost-effective = scheduled scaling
+Edit `.env`:
+```bash
+AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+AWS_DEFAULT_REGION=us-east-1
 ```
 
-### 2. **AI Plans Deployment**
-```
-AI determines:
-1. Backend needs compute → EC2
-2. Frontend is static → S3 
-3. Variable traffic → Auto-scaling
-4. Budget conscious → t2.micro + spot instances
-```
+### Option 2: AWS CLI Credentials
 
-### 3. **AI Executes Tools**
-```
-AI calls in sequence:
-1. deploy_backend_to_ec2(instance_type="t2.micro")
-2. deploy_frontend_to_s3()
-3. connect_services()
-4. setup_autoscaling(min=1, max=5, schedule="12pm-2pm")
+If you have AWS CLI configured, Docker can use those:
+```bash
+# Check if AWS CLI is configured
+aws configure list
+
+# Docker will automatically use ~/.aws/credentials
 ```
 
-### 4. **AI Monitors & Optimizes**
-```
-AI tracks:
-- Deployment status
-- Cost accumulation
-- Performance metrics
-- Suggests optimizations
-```
+### Getting AWS Credentials
 
----
+1. **Go to [AWS IAM Console](https://console.aws.amazon.com/iam/)**
+2. **Create a new user** → Attach `AdministratorAccess` policy
+3. **Create access key** → Download credentials
+4. **Add to `.env` file**
 
-## 🔥 Examples from the Community
-
-### "Deployed my hackathon project in 2 minutes"
-> "Was fighting with Heroku and Vercel. Tried AWS Agent, described my stack, it just... worked. Won 'Best Use of Cloud' at the hackathon."  
-> — [@devname](https://twitter.com/devname)
-
-### "Saved $180/month on AWS"
-> "Asked it to optimize my bill. It switched me to reserved instances, added auto-shutdown, and set up spot instances. Bill went from $250 to $70."  
-> — [@startupfounder](https://twitter.com/startupfounder)
-
-### "Finally understood AWS"
-> "Learning AWS was overwhelming. This tool deploys AND explains what it's doing. Better than any tutorial."  
-> — [@juniordev](https://twitter.com/juniordev)
-
----
-
-## 🏆 Awards & Recognition
-
-- 🥇 **Winner** - Archestra Hackathon 2026
-- 🎖️ **Best DevOps Tool** - Product Hunt
-- ⭐ **#1 Product of the Day** - Product Hunt
-- 📰 **Featured** - HackerNews Front Page
-
-*(Update these as you achieve them!)*
-
----
-
-## 🗺️ Roadmap
-
-### ✅ MVP (Complete)
-- [x] EC2 backend deployment
-- [x] S3 frontend deployment  
-- [x] Service connection
-- [x] Cost estimation
-- [x] Deployment status
-
-### 🚧 In Progress
-- [ ] Nginx reverse proxy
-- [ ] Auto-scaling groups
-- [ ] CloudWatch monitoring
-- [ ] Cost optimization suggestions
-
-### 🔮 Future
-- [ ] Database deployment (RDS, DynamoDB)
-- [ ] CDN setup (CloudFront)
-- [ ] SSL/TLS certificates
-- [ ] CI/CD pipeline integration
-- [ ] Multi-region deployment
-- [ ] Kubernetes support
-- [ ] Cost alerts and budgets
-- [ ] Rollback capabilities
-
-### 💡 Crazy Ideas
-- [ ] "Deploy for a TechCrunch launch" → Auto-provisions for viral traffic
-- [ ] "Make this production-ready" → Adds monitoring, backups, DR
-- [ ] "Clone my competitor's stack" → Analyzes and replicates architecture
-
----
-
-## 🤝 Contributing
-
-We love contributions! Here's how you can help:
-
-### Add New Tools
-```python
-# mcp_server/tools/your_tool.py
-
-async def deploy_to_lambda(
-    code_path: str,
-    name: str,
-    runtime: str = "python3.11"
-) -> dict:
-    """Deploy serverless function to AWS Lambda"""
-    # Your implementation
-    pass
-```
-
-### Improve AI Instructions
-Better tool descriptions = smarter AI decisions!
-
-### Add Support for More Frameworks
-- Django/Flask backends
-- Next.js/Nuxt.js frameworks
-- Go/Rust/Java backends
-
-### Ideas Wanted
-- What deployments are painful?
-- What AWS services to add next?
-- What would make this 10x better?
-
-[Open an issue](https://github.com/yourusername/aws-agent/issues) or [submit a PR](https://github.com/yourusername/aws-agent/pulls)!
-
----
-
-## 📚 Documentation
-
-- [Installation Guide](docs/installation.md)
-- [Tool Development](docs/creating-tools.md)
-- [Archestra Integration](docs/archestra-setup.md)
-- [Cost Optimization Guide](docs/cost-optimization.md)
-- [Troubleshooting](docs/troubleshooting.md)
-- [API Reference](docs/api-reference.md)
-
----
-
-## 🔒 Security
-
-- **Never commit AWS credentials** - Use `.env` (already in `.gitignore`)
-- **Use IAM roles** when possible instead of access keys
-- **Principle of least privilege** - Grant only needed permissions
-- **Rotate credentials** regularly
-- **Enable MFA** on your AWS account
-
-### Minimum IAM Policy
+### Minimum Required Permissions
 ```json
 {
   "Version": "2012-10-17",
@@ -389,14 +258,9 @@ Better tool descriptions = smarter AI decisions!
         "ec2:RunInstances",
         "ec2:DescribeInstances",
         "ec2:CreateSecurityGroup",
-        "ec2:AuthorizeSecurityGroupIngress",
-        "ec2:DescribeSecurityGroups",
-        "ec2:CreateTags",
         "s3:CreateBucket",
         "s3:PutObject",
-        "s3:PutBucketWebsite",
-        "s3:PutBucketPolicy",
-        "s3:PutPublicAccessBlock"
+        "s3:PutBucketWebsite"
       ],
       "Resource": "*"
     }
@@ -406,45 +270,136 @@ Better tool descriptions = smarter AI decisions!
 
 ---
 
-## ⚠️ Disclaimer
+## 🐳 Docker Commands
+```bash
+# Build image
+make build
 
-This tool creates real AWS resources that cost real money. Always:
-- Review deployment plans before confirming
-- Monitor your AWS billing dashboard
-- Set up billing alerts
-- Delete resources you're not using
-- Start with t2.micro (free tier eligible)
+# Start server
+make run
 
-**We are not responsible for AWS charges incurred.**
+# View logs
+make logs
+
+# Stop server
+make stop
+
+# Clean up everything
+make clean
+
+# Run tests
+make test
+
+# Get shell access
+make shell
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### MCP Server Not Connecting
+
+**Check Docker is running:**
+```bash
+docker ps
+```
+
+**Check credentials are loaded:**
+```bash
+make test
+```
+
+**View logs:**
+```bash
+make logs
+```
+
+### "Operation not permitted" Error
+
+This is a macOS security issue. Solutions:
+
+1. **Use Docker** (recommended - bypasses the issue)
+2. **Grant Full Disk Access** to Claude Desktop in System Settings
+
+### Python Module Not Found
+
+Make sure you're using the Docker setup:
+```bash
+make build
+make run
+```
+
+### AWS Credentials Invalid
+
+Test your credentials:
+```bash
+docker run --rm --env-file .env aws-deployment-agent \
+  python -c "import boto3; print(boto3.client('sts').get_caller_identity())"
+```
+
+---
+
+## 📚 Documentation
+
+- [Detailed Setup Guide](docs/SETUP.md)
+- [Architecture Overview](docs/ARCHITECTURE.md)
+- [Creating Custom Tools](docs/CUSTOM_TOOLS.md)
+- [Deployment Guide](docs/DEPLOYMENT.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
+
+---
+
+## 🎥 Demo Video
+
+[Watch the 3-minute demo](https://youtube.com/your-video)
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md)
+
+### Add New Tools
+
+1. Create tool in `mcp_server/tools/`
+2. Add to `__init__.py`
+3. Register in `server.py`
+4. Test with Docker
 
 ---
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE)
 
 ---
 
 ## 🙏 Acknowledgments
 
-- [Archestra](https://github.com/archestra-ai/archestra) - For the amazing MCP platform
+- [Model Context Protocol](https://modelcontextprotocol.io/) - The standard for AI tool integration
 - [Anthropic](https://www.anthropic.com/) - For Claude AI
-- [AWS](https://aws.amazon.com/) - For the cloud infrastructure
-- You - For building with us! 🚀
+- [Archestra](https://archestra.ai/) - For the hackathon
+- [AWS](https://aws.amazon.com/) - For cloud infrastructure
+
+---
+
+## 🏆 Built For
+
+**Archestra Hackathon 2026** - Hack All February Series
 
 ---
 
 ## 📬 Contact
 
-- **Twitter**: [@yourusername](https://twitter.com/yourusername)
-- **Email**: your.email@example.com
-- **Discord**: [Join our community](https://discord.gg/yourserver)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/aws-agent/issues)
+- **GitHub:** [@yourusername](https://github.com/yourusername)
+- **Twitter:** [@yourusername](https://twitter.com/yourusername)
+- **Email:** your.email@example.com
 
 ---
 
-## ⭐ Star History
+## ⭐ Star This Repo
 
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/aws-agent&type=Date)](https://star-history.com/#yourusername/aws-agent&Date)
+If this helped you, give it a star! It helps others discover the project.
 
----
+[⬆ Back to top](#-aws-deployment-agent)

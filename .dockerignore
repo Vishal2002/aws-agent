@@ -1,0 +1,40 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Credentials
+.env
+*.pem
+*.key
+
+# Git
+.git/
+.gitignore
+
+# Deployments (will be mounted as volume)
+deployments/
+
+# Tests
+tests/
+test_*.py
+
+# Docs
+docs/
+*.md
+!README.md

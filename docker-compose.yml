@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  aws-deployment-agent:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: aws-deployment-agent
+    image: aws-deployment-agent:latest
+    environment:
+      # AWS Credentials - loaded from .env file
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
+    stdin_open: true
+    tty: true
+    volumes:
+      # Persist deployment state
+      - ./deployments:/app/deployments
+      # Optional: Mount credentials file
+      - ~/.aws:/root/.aws:ro
+    restart: unless-stopped
+    networks:
+      - aws-agent-network
+
+networks:
+  aws-agent-network:
+    driver: bridge
