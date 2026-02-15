@@ -44,6 +44,23 @@ Into this:
 
 ## 🚀 Quick Start
 
+Pull and run the pre-built Docker image:
+```bash
+docker pull vishalsharma2002/aws-agent:latest
+docker run --rm -i --env-file .env vishalsharma2002/aws-agent:latest
+```
+
+No build required! Works on Mac, Linux, and Windows.
+```
+
+### In Your Demo:
+```
+"I've published the Docker image to Docker Hub. 
+Anyone can run: docker pull vishalsharma2002/aws-agent:latest
+
+This makes it trivially easy for judges to test - 
+one command and you're deploying to AWS."
+
 ### Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/) installed
@@ -52,7 +69,7 @@ Into this:
 
 ### 1. Clone & Configure
 ```bash
-git clone https://github.com/yourusername/aws-agent.git
+git clone https://github.com/Vishal2002/aws-agent.git
 cd aws-agent
 
 # Copy environment template
@@ -392,9 +409,7 @@ MIT License - see [LICENSE](LICENSE)
 
 ## 📬 Contact
 
-- **GitHub:** [@yourusername](https://github.com/yourusername)
-- **Twitter:** [@yourusername](https://twitter.com/yourusername)
-- **Email:** your.email@example.com
+- **GitHub:** [@Vishal2002](https://github.com/Vishal2002)
 
 ---
 

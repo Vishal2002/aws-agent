@@ -28,7 +28,7 @@
 
 **Step 1: Clone Repository**
 ```bash
-git clone https://github.com/yourusername/aws-agent.git
+git clone https://github.com/Vishal2002/aws-agent.git
 cd aws-agent
 ```
 
@@ -97,7 +97,7 @@ Completely quit and reopen. Look for 🔌 icon.
 
 **Step 1: Clone & Setup**
 ```bash
-git clone https://github.com/yourusername/aws-agent.git
+git clone https://github.com/Vishal2002/aws-agent.git
 cd aws-agent
 python3 -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
